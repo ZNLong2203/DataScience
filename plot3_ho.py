@@ -1,0 +1,52 @@
+#Read file
+with open("clean_data.csv", encoding="utf8") as file:
+    data = file.read().split("\n")
+header = data[0]
+students = data[1:]
+
+total_student = len(students)
+#Remove last student
+students.pop()
+#Split header
+header = header.split(",")
+subjects = header[5:]
+#Split each student in list
+for i in range(len(students)):
+    students[i] = students[i].split(",")
+
+name = ["lai"]
+name_count = [24]
+
+for s in students:
+    s_name = s[1].split(" ")
+    lastname = s_name[0]
+    if lastname not in name:
+        name.append(lastname)
+        name_count.append(0)
+        name_count[name.index(lastname)] += 1
+    else:
+        name_count[name.index(lastname)] += 1
+print(name)
+print(name_count)
+
+counted_max_num = []    # So lan lap lai tu lon den be
+sort_index = []
+for i in range(len(name)):
+    max_number = 0
+    for j in range(len(name)):
+        if name_count[j] > max_number and name_count[j] not in counted_max_num :
+            max_number = name_count
+    counted_max_num.append(max_number)
+
+#Tao sort_index, vi tri bang cach tim vi tri cua cac con so lon nhat trong counted_max_num
+for max_num in counted_max_num:
+    for i in range(len(name)):
+        if name_count[i] == max_num and i not in sort_index:
+            sort_index.append(i)
+
+name_sorted = []
+name_counted_sorted = []
+
+for index in sort_index:
+    name_sorted.append(name[index])
+    name_counted_sorted.append(name_count[index])
